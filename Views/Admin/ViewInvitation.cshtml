@@ -1,0 +1,31 @@
+﻿@model Appointments
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+
+<body class="d-flex align-items-center min-vh-100">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6 plr-5 pb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="title-2 mb-4 text-center">View Appointment Invitation</h2>
+                        <hr />
+                        <form>
+                            <input type="hidden" id="AppointmentId" name="AppointmentId" value="@Model.AppointmentId" />
+                            <div class="form-group">
+                                <label for="Email">Customer Email</label>
+                                <input type="text" class="form-control" id="Email" name="Email" value="@Model.User.Email" required disabled/>
+                            </div>
+                            <div class="form-group">
+                                <label for="InvitationBody">Invitation Body</label>
+                                <textarea class="form-control textarea-custom" id="InvitationBody" name="InvitationBody" rows="4" required disabled>@Model.InvitationBody</textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+

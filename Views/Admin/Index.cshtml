@@ -1,0 +1,259 @@
+﻿@model JewelEase.ViewModels.DashboardViewModel
+
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+    @section PageStyles {
+        <!-- Fonts and icons -->
+        <script src="~/Admin/assets/js/plugin/webfont/webfont.min.js"></script>
+        <script>
+            WebFont.load({
+                google: { families: ["Public Sans:300,400,500,600,700"] },
+                custom: {
+                    families: [
+                        "Font Awesome 5 Solid",
+                        "Font Awesome 5 Regular",
+                        "Font Awesome 5 Brands",
+                        "simple-line-icons",
+                    ],
+                    urls: ["Admin/assets/css/fonts.min.css"],
+                },
+                active: function () {
+                    sessionStorage.fonts = true;
+                },
+            });
+        </script>
+
+        <!-- CSS Files -->
+        <link rel="stylesheet" href="Admin/assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="Admin/assets/css/plugins.min.css" />
+        <link rel="stylesheet" href="Admin/assets/css/kaiadmin.min.css" />
+    }
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card card-stats card-round">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-icon">
+                                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col col-stats ms-3 ms-sm-0">
+                                        <div class="numbers">
+                                            <p class="card-category">Customers</p>
+                                            <h4 class="card-title">@Model.CustomersCount</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card card-stats card-round">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-icon">
+                                        <div class="icon-big text-center icon-info bubble-shadow-small">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col col-stats ms-3 ms-sm-0">
+                                        <div class="numbers">
+                                            <p class="card-category">Appointments</p>
+                                            <h4 class="card-title">@Model.PendingAppointments</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card card-stats card-round">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-icon">
+                                        <div class="icon-big text-center icon-success bubble-shadow-small">
+                                            <i class="fas fa-luggage-cart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col col-stats ms-3 ms-sm-0">
+                                        <div class="numbers">
+                                            <p class="card-category">Sales</p>
+                                            <h4 class="card-title">Rs @Model.TotalSales</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card card-stats card-round">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-icon">
+                                        <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                            <i class="far fa-check-circle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col col-stats ms-3 ms-sm-0">
+                                        <div class="numbers">
+                                            <p class="card-category">Quotations</p>
+                                            <h4 class="card-title">@Model.PendingQuotations</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-round">
+                            <div class="card-header">
+                                <div class="card-head-row">
+                                    <div class="card-title">Sales Forecast for Next Month</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container" style="min-height: 375px">
+                                    <canvas id="forecastChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @* ------------------------------------------------------------- *@
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card card-round">
+                            <div class="card-header">
+                                <div class="card-head-row">
+                                    <div class="card-title">Sales Statistics</div>
+                                    <div class="card-tools">
+@*                                         <a href="#" class="btn btn-label-success btn-round btn-sm me-2">
+                                            <span class="btn-label">
+                                                <i class="fa fa-pencil"></i>
+                                            </span>
+                                            Export
+                                        </a>
+                                        <a href="#" class="btn btn-label-info btn-round btn-sm">
+                                            <span class="btn-label">
+                                                <i class="fa fa-print"></i>
+                                            </span>
+                                            Print
+                                        </a> *@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container" style="min-height: 375px">
+                                    <canvas id="statisticsChart"></canvas>
+                                </div>
+                                <div id="myChartLegend"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ---------------------------------------------------------- -->
+                    <div class="col-md-4" style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="card card-primary card-round" style="flex: 1; margin-bottom:5px">
+                            <div class="card-header">
+                                <div class="card-head-row">
+                                    <div class="card-title">Current Months Sales</div>
+                                </div>
+                                <div class="card-category" id="salesPeriod"></div>
+                            </div>
+                            <div class="card-body pb-0">
+                                <div class="mb-4 mt-2">
+                                    <h1></h1>
+                                </div>
+                                <div class="pull-in">
+                                    <canvas id="dailySalesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-round" style="flex: 1; border: 1px solid #e0e0e0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <div class="card-body pb-0 pt-0" style="padding: 20px; text-align: center;">
+                                <div class="card-header" style="border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;">
+                                    <div class="card-head-row" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+                                        <div class="card-title" style="font-size: 18px; font-weight: bold; color: #007bff;">Total Items Sold</div>
+                                    </div>
+                                    <div class="card-category" id="dateRange" style="font-size: 14px; color: #000000; margin-top: 10px; justify-content: center; align-items: center; text-align: center;">
+                                        Date Range: <span style="font-weight: bold;" id="dateRange"></span>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 15px;">
+                                <h5 id="itemsSoldNumber" class="mb-2" id="totalItemsSold" style="font-size: 20px; font-weight: bold; color: #007bff;"></h5>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @* ------------------------------------------------------------------- *@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-round">
+                            <div class="card-header">
+                                <div class="card-head-row card-tools-still-right">
+                                    <div class="card-title">
+                                        <span style="display: inline-flex; justify-content: center; align-items: center; background-color: #ffc107; color: black; padding: 8px; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; text-align: center; margin-right: 10px; margin-left:9px;">
+                                            <i class="fa fa-warning"></i> <!-- Warning icon -->
+                                        </span>
+                                        Low Stock Jewelry Items
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <!-- Jewelry Items table -->
+                                    <table class="table align-items-center mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Jewelry Item</th>
+                                                <th scope="col" class="text-end">Reference ID</th>
+                                                <th scope="col" class="text-end">Stock Level</th>
+                                                <th scope="col" class="text-end">Category</th>
+                                                <th scope="col" class="text-end">Action</th> <!-- New Action column -->
+                                            </tr>
+                                        </thead>
+                                        <tbody id="jewelryItemsTableBody">
+                                            <!-- Table rows will be dynamically inserted here using JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@section Scripts {
+
+    <!-- jQuery Scrollbar -->
+    <script src="~/Admin/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="~/Admin/assets/js/plugin/chart.js/chart.min.js"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="~/Admin/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Circle -->
+    <script src="~/Admin/assets/js/plugin/chart-circle/circles.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="~/Admin/assets/js/plugin/datatables/datatables.min.js"></script>
+
+    <script src="~/Admin/assets/js/AdminIndex.js"></script>
+}

@@ -1,0 +1,70 @@
+﻿@model Category
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+    var isEditing = Model.CategoryId != 0;
+    var actionTitle = isEditing ? "Edit Category" : "Add Category";
+    var buttonText = isEditing ? "Save Changes" : "Add Category";
+}
+
+<body class="d-flex align-items-center min-vh-100">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6 plr-5 pb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="title-2 mb-4 text-center">@actionTitle</h2>
+                        <hr />
+                        <form method="post" asp-action="AddEditCategory" enctype="multipart/form-data">
+                            <input type="hidden" name="redirectPage" value="@ViewData["RedirectPage"]" />
+                            <input type="hidden" id="CategoryId" name="CategoryId" value="@Model.CategoryId" />
+                            <div class="form-group">
+                                <label for="CategoryName">Category Name</label>
+                                <input type="text" class="form-control" id="CategoryName" name="CategoryName" value="@Model.CategoryName" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Upload Image (Dimensions : 1536 X 813)</label>
+                                <input type="file" class="form-control" id="categoryImage" name="CategoryImage" accept="image/*" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">@buttonText</button>
+                            <button type="button" class="btn btn-secondary" id="resetForm">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '@TempData["SuccessMessage"]',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        var redirectPage = $('input[name="redirectPage"]').val(); // Get the value of the hidden input
+                        window.location.href = '@Url.Action("", "Admin")' + '/' + redirectPage;
+                    });
+                </text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: '@TempData["ErrorMessage"]',
+                        confirmButtonText: 'OK'
+                    });
+                </text>
+            }
+        });
+    </script>
+}
+

@@ -1,0 +1,95 @@
+﻿@model JewelryItems
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+    var isEditing = Model.JewelryItemId != 0;
+    var actionTitle = isEditing ? "Edit Jewellery Item" : "Add Jewellery Item";
+    var buttonText = isEditing ? "Save Changes" : "Add Jewellery Item";
+}
+
+<body class="d-flex align-items-center min-vh-100">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6 plr-5 pb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="title-2 mb-4 text-center">@actionTitle</h2>
+                        <hr />
+                        <form method="post" asp-action="AddEditJewelryItem" enctype="multipart/form-data">
+                            <input type="hidden" name="redirectPage" value="@ViewData["RedirectPage"]" />
+                            <input type="hidden" id="jewelryItemId" name="JewelryItemId" value="@Model.JewelryItemId" />
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="Name" value="@Model.Name" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="IdentificationID">Reference Number</label>
+                                <input type="text" class="form-control" id="IdentificationID" name="IdentificationID" value="@Model.IdentificationID" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryId">Category</label>
+                                <select class="form-control" asp-for="CategoryId" asp-items="ViewBag.Categories" required>
+                                    <option value="">Select a Category</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" name="Description" value="@Model.Description" />
+                            </div>
+                            <div class="form-group">
+                                <label for="karats">Karats</label>
+                                <input type="number" class="form-control" id="karats" name="karats" value="@Model.karats" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="TryOnUrl">Try On Url</label>
+                                <input type="text" class="form-control" id="TryOnUrl" name="TryOnUrl" value="@Model.TryOnUrl" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="stockLevel">Stock Level</label>
+                                <input type="number" class="form-control" id="stockLevel" name="StockLevel" value="@Model.StockLevel" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Upload Image (Dimensions : 1600 X 1600)</label>
+                                <input type="file" class="form-control" id="productImage" name="ProductImage" accept="image/*" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">@buttonText</button>
+                            <button type="button" class="btn btn-secondary" id="resetForm">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '@TempData["SuccessMessage"]',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        var redirectPage = $('input[name="redirectPage"]').val(); // Get the value of the hidden input
+                        window.location.href = '@Url.Action("", "Admin")' + '/' + redirectPage;
+                    });
+                </text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: '@TempData["ErrorMessage"]',
+                        confirmButtonText: 'OK'
+                    });
+                </text>
+            }
+        });
+    </script>
+}
+

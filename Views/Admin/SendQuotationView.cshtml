@@ -1,0 +1,125 @@
+﻿@model List<ItemQuotationLineItem>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+
+<h2 class="text-center mb-5">Send Quotation</h2>
+<hr />
+
+<form method="post" asp-action="SendQuotationEstimate">
+    <input type="hidden" name="QuotationId" value="@Model.FirstOrDefault()?.QuotationId" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Reference Number</th>
+                <th>Category</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>
+                        <input type="hidden" name="ItemQuotationLineItems[@i].QuotationLineItemId" value="@Model[i].QuotationLineItemId" />
+                        <input type="text" class="form-control" name="ItemQuotationLineItems[@i].JewelryItems.IdentificationID" value="@Model[i].JewelryItems.IdentificationID" required disabled />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="ItemQuotationLineItems[@i].JewelryItems.Category.CategoryName" value="@Model[i].JewelryItems.Category.CategoryName" required disabled />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="ItemQuotationLineItems[@i].JewelryItems.Name" value="@Model[i].JewelryItems.Name" required disabled />
+                    </td>
+                    <td>
+                        <input type="number" class="form-control qty" name="ItemQuotationLineItems[@i].Qty" value="@Model[i].Qty" required disabled />
+                    </td>
+                    <td>
+                        <input type="number" class="form-control unit-price" name="ItemQuotationLineItems[@i].Price" required />
+                    </td>
+                    <td>
+                        <input type="number" class="form-control total-price" name="ItemQuotationLineItems[@i].TotalPrice" value="@Model[i].TotalPrice" readonly />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <label for="TotalDiscount">Total Discount (Rupees)</label>
+        <input type="number" class="form-control" id="TotalDiscount" name="TotalDiscount" required />
+    </div>
+
+    <div class="form-group">
+        <label for="NetTotal">Net Total</label>
+        <input type="number" class="form-control" id="NetTotal" name="NetTotal" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send Quotation</button>
+    <button type="button" class="btn btn-secondary" id="resetForm">Reset</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        // Function to calculate total prices and net total
+        function calculateTotals() {
+            let grandTotal = 0;
+            $('.total-price').each(function () {
+                grandTotal += parseFloat($(this).val()) || 0; // Sum up total prices
+            });
+
+            const totalDiscount = parseFloat($('#TotalDiscount').val()) || 0; // Get discount
+            const netTotal = grandTotal - totalDiscount; // Calculate net total
+            $('#NetTotal').val(netTotal.toFixed(2)); // Update net total
+        }
+
+        // Event listener for unit price input
+        $('.unit-price').on('input', function () {
+            calculateTotalPrice();
+            calculateTotals();
+        });
+
+        // Event listener for total discount input
+        $('#TotalDiscount').on('input', function () {
+            calculateTotals();
+        });
+
+        // Calculate total price for each line item
+        function calculateTotalPrice() {
+            $('tr').each(function () {
+                var qty = $(this).find('.qty').val() || 0;
+                var unitPrice = $(this).find('.unit-price').val() || 0;
+                var totalPrice = qty * unitPrice;
+                $(this).find('.total-price').val(totalPrice.toFixed(2)); // Display total price with two decimals
+            });
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '@TempData["SuccessMessage"]',
+                    confirmButtonText: 'OK'
+                });
+            </text>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '@TempData["ErrorMessage"]',
+                    confirmButtonText: 'OK'
+                });
+            </text>
+        }
+    });
+</script>

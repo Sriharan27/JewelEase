@@ -1,0 +1,37 @@
+﻿@model List<ItemQuotationLineItem>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Quotation Line Items for Quotation ID @Model.FirstOrDefault()?.QuotationId</h2>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>Line Item ID</th>
+            <th>Jewelry Item</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lineItem in Model)
+        {
+            <tr>
+                <td>@lineItem.QuotationLineItemId</td>
+                <td>@lineItem.JewelryItems?.Name</td>
+                <td>@lineItem.Qty</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function () {
+        $('#tableCss').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+    });
+</script>

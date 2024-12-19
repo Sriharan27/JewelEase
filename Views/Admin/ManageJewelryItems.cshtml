@@ -1,0 +1,94 @@
+﻿@model List<JewelryItems>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Manage Jewelry Items</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" asp-controller="Admin" asp-action="AddEditJewelryItem" asp-route-redirectPage="ManageJewelryItems">Create New Jewelry Item</a>
+    </div>
+</div>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Karats</th>
+            <th>Stock Level</th>
+            <th>Reference Id</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var jewelry in Model)
+        {
+            <tr>
+                <td>@jewelry.JewelryItemId</td>
+                <td>@jewelry.Name</td>
+                <td>@jewelry.Category.CategoryName</td>
+                <td>
+                    @{
+                        string fullDescription = jewelry.Description;
+                        string truncatedDescription = fullDescription.Length > 100
+                        ? fullDescription.Substring(0, 100) + "..."
+                        : fullDescription;
+                    }
+                    <span class="description-truncated">@truncatedDescription</span>
+                    <span class="description-full" style="display:none;">@fullDescription</span>
+                    @if (fullDescription.Length > 100)
+                    {
+                        <a href="javascript:void(0);" class="view-more" style="color: blue; cursor: pointer; text-decoration: underline;">View More</a>
+
+                    }
+                </td>
+                <td>@jewelry.karats</td>
+                <td>@jewelry.StockLevel</td>
+                <td>@jewelry.IdentificationID</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(jewelry.ImageUrl))
+                    {
+                        <img src="@(jewelry.ImageUrl.StartsWith("http") ? jewelry.ImageUrl : $"https://localhost:44372/{jewelry.ImageUrl}")" alt="Jewelry Image" style="width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-sm" asp-controller="Admin" asp-action="AddEditJewelryItem" asp-route-id="@jewelry.JewelryItemId" asp-route-redirectPage="ManageJewelryItems"><i class="bi bi-pencil-square"></i></a>
+                    <form method="post" asp-controller="Admin" asp-action="DeleteJewelryItem" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this driver?');">
+                        <input type="hidden" name="Id" value="@jewelry.JewelryItemId" />
+                        <button type="submit" class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function () {
+        $('#tableCss').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+
+        // Handle "View More" functionality
+        $('#tableCss').on('click', '.view-more', function (e) {
+            e.preventDefault();
+            var $truncated = $(this).siblings('.description-truncated');
+            var $full = $(this).siblings('.description-full');
+            $truncated.toggle();
+            $full.toggle();
+            $(this).text($(this).text() == 'View More' ? 'View Less' : 'View More');
+        });
+    });
+</script>

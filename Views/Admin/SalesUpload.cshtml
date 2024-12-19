@@ -1,0 +1,93 @@
+﻿@model List<Sales>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Sales Upload</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <form asp-controller="Admin" asp-action="SalesUpload" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label for="salesFile">Upload Sales Data</label>
+                <input type="file" class="form-control" id="salesFile" name="salesFile" accept=".xlsx, .xls" />
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+            <a href="@Url.Action("DownloadSalesTemplate", "Admin")" class="btn btn-secondary ml-2">Download Format</a> 
+        </form>
+    </div>
+</div>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>Sale ID</th>
+            <th>Sale Ref ID</th>
+            <th>User ID</th>
+            <th>Discount</th>
+            <th>Net Total</th>
+            <th>Sale Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model)
+        {
+            <tr>
+                <td>@sale.SaleId</td>
+                <td>@sale.SaleRefId</td>
+                <td>@sale.UserId</td>
+                <td>@sale.Discount</td>
+                <td>@sale.NetTotal</td>
+                <td>@sale.SaleDate.ToString("dd/MM/yyyy")</td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-sm btn-outline-primary"
+                       asp-controller="Admin"
+                       asp-action="SalesLineItemView"
+                       asp-route-id="@sale.SaleId"
+                       title="View Sale Details"
+                       style="transition: background-color 0.3s ease;">
+                        <i class="bi bi-eye"></i> View
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tableCss').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true
+            });
+
+            // SweetAlert for TempData Messages
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                            Swal.fire({
+                                icon: 'success',
+                            title: 'Success!',
+                            text: '@TempData["SuccessMessage"]',
+                            confirmButtonText: 'OK'
+                                });
+                </text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                            Swal.fire({
+                                icon: 'error',
+                            title: 'Error!',
+                            text: '@TempData["ErrorMessage"]',
+                            confirmButtonText: 'OK'
+                                });
+                </text>
+            }
+        });
+    </script>
+}

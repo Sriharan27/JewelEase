@@ -1,0 +1,60 @@
+﻿@model List<Category>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Manage Category</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" asp-controller="Admin" asp-action="AddEditCategory" asp-route-redirectPage="ManageCategory">Create New Category</a>
+    </div>
+</div>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.CategoryId</td>
+                <td>@category.CategoryName</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(category.ImageUrl))
+                    {
+                        <img src="@(category.ImageUrl.StartsWith("http") ? category.ImageUrl : $"https://localhost:44372/{category.ImageUrl}")" alt="Category Image" style="width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-sm" asp-controller="Admin" asp-action="AddEditCategory" asp-route-id="@category.CategoryId" asp-route-redirectPage="ManageCategory"><i class="bi bi-pencil-square"></i></a>
+                    <form method="post" asp-controller="Admin" asp-action="DeleteCategory" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                        <input type="hidden" name="Id" value="@category.CategoryId" />
+                        <button type="submit" class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function () {
+        $('#tableCss').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+    });
+</script>

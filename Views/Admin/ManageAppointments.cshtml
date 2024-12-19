@@ -1,0 +1,104 @@
+﻿@model List<Appointments>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Manage Appointments</h2>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>Appointment ID</th>
+            <th>Customer Name</th>
+            <th>Customer Email</th>
+            <th>Appointment Date</th>
+            <th>Appointment Time</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentId</td>
+                <td>@appointment.User.Name</td>
+                <td>@appointment.User.Email</td>
+                <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy")</td>
+                <td>@DateTime.Today.Add(appointment.AppointmentTime).ToString("h:mm tt")</td>
+                <td>
+                    @{
+                        string fullMessage = appointment.Message;
+                        string truncatedDescription = fullMessage.Length > 20
+                        ? fullMessage.Substring(0, 20) + "..."
+                        : fullMessage;
+                    }
+                    <span class="description-truncated">@truncatedDescription</span>
+                    <span class="description-full" style="display:none;">@fullMessage</span>
+                    @if (fullMessage.Length > 20)
+                    {
+                        <a href="javascript:void(0);" class="view-more" style="color: blue; cursor: pointer; text-decoration: underline;">View More</a>
+
+                    }
+                </td>
+                <td>@appointment.Status</td>
+                <td style="white-space:nowrap">
+                    @if (appointment.Status == "Pending")
+                    {
+                        <a class="btn btn-sm" asp-controller="Admin" asp-action="SendAppointmentInvitation" asp-route-id="@appointment.AppointmentId" title="Send Appointment Invitation" style="border: 1px solid green; color: green; transition: background-color 0.3s ease; outline: none;" onmouseover="this.style.backgroundColor='green'; this.style.color='white';" onmouseout="this.style.backgroundColor=''; this.style.color='green';"><i class="bi bi-send"></i> Send Invitation</a>
+                    }
+                    @if (appointment.Status == "Completed")
+                    {
+                        <a class="btn btn-sm btn-outline-primary" asp-controller="Admin" asp-action="ViewInvitation" asp-route-id="@appointment.AppointmentId" title="View Appointment Invitation" style="transition: background-color 0.3s ease;"> <i class="bi bi-eye"></i> View Invitation </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tableCss').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true
+            });
+
+            $('#tableCss').on('click', '.view-more', function (e) {
+                e.preventDefault();
+                var $truncated = $(this).siblings('.description-truncated');
+                var $full = $(this).siblings('.description-full');
+                $truncated.toggle();
+                $full.toggle();
+                $(this).text($(this).text() == 'View More' ? 'View Less' : 'View More');
+            });
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                        Swal.fire({
+                            icon: 'success',
+                        title: 'Success!',
+                        text: '@TempData["SuccessMessage"]',
+                        confirmButtonText: 'OK'
+                            });
+                </text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                        Swal.fire({
+                            icon: 'error',
+                        title: 'Error!',
+                        text: '@TempData["ErrorMessage"]',
+                        confirmButtonText: 'OK'
+                            });
+                </text>
+            }
+        });
+    </script>
+}

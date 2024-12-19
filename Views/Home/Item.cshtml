@@ -1,0 +1,118 @@
+﻿@{
+    Layout = "~/Views/Home/CommonLayout.cshtml";
+}
+<!-- Product Detail -->
+<section class="sec-product-detail bg0 p-t-65" style="padding-top:100px">
+    <div class="container">
+        <div class="bread-crumb flex-w p-l-25 p-r-15 p-lr-0-lg m-b-50">
+            <a href="@Url.Action("Index", "Home")" class="stext-109 cl8 hov-cl1 trans-04">
+                Home
+                <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+            </a>
+
+            <a href="#" class="stext-109 cl8 hov-cl1 trans-04 category-link">
+                <!-- Category name will be dynamically updated -->
+                <span class="category-name">Category</span>
+                <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+            </a>
+
+            <span class="stext-109 cl4 item-name">
+                <!-- Item name will be dynamically updated -->
+                Item Name
+            </span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="itemImageContainer">
+                    <!-- Item image will be dynamically added here -->
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-5 p-b-30 m-l-100">
+                <div class="p-r-50 p-t-5 p-lr-0-lg">
+                    <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                    </h4>
+                    <span class="mtext-106 cl2">
+                    </span>
+                    <p class="stext-102 cl3 p-t-23">
+                    </p>
+
+                    <!--  -->
+                    <div class="p-t-33">
+                        <div class="flex-w flex-l-m p-b-10">
+                            <div class="size-250 flex-w flex-m respon6-next" style="display: flex; flex-direction: column; align-items: flex-start;">
+
+                                <!-- Product Quantity Input in a single line -->
+                                <div class="wrap-num-product flex-w m-r-20 m-tb-10" style="display: flex; align-items: center;">
+                                    <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                        <i class="fs-16 zmdi zmdi-minus"></i>
+                                    </div>
+                                    <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+                                    <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                        <i class="fs-16 zmdi zmdi-plus"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Buttons on the next line -->
+                                <div style="display: flex; margin-top: 10px;">
+                                    <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 add-to-cart ">
+                                        Add to cart
+                                    </button>
+
+                                    <!-- Try On button with black background and dark gray hover -->
+                                    <button class="flex-c-m stext-101 cl0 size-101 bor1 hov-btn1 p-lr-15 trans-04 js-tryon-detail"
+                                            style="margin-left: 10px; background-color: #D4AF37; color: white; transition: background-color 0.3s; display:none"
+                                            onmouseover="this.style.backgroundColor='#222222'"
+                                            onmouseout="this.style.backgroundColor='#D4AF37'"
+                                            data-tryon-url="">
+                                        Try On
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
+        <span class="stext-107 SKU cl6 p-lr-25">
+        </span>
+
+        <span class="stext-107 js-category cl6 p-lr-25">
+        </span>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="sec-relate-product bg0 p-t-45 p-b-60">
+    <div class="container">
+        <div class="p-b-45">
+            <h3 class="ltext-106 cl5 txt-center">
+                Related Products
+            </h3>
+        </div>
+
+        <!-- Slick Slider Wrapper -->
+        <div class="wrap-slick2">
+            <div class="slick-arrows">
+                <button class="arrow-slick2 prev-slick2"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+                <button class="arrow-slick2 next-slick2"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+            <div class="slick2">
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/vendor/slick/slick.min.js"></script>
+    <script src="~/js/Item.js"></script>
+}

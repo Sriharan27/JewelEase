@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - JewelEase Admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        .side-nav {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+
+            .side-nav a {
+                padding: 15px 20px;
+                text-decoration: none;
+                font-size: 18px;
+                color: #333;
+                display: block;
+            }
+
+                .side-nav a:hover {
+                    background-color: #ddd;
+                }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="side-nav">
+        <h4 class="text-center">Admin Panel</h4>
+        <a href="/Admin/ManageCategory">Manage Categories</a>
+        <a href="/Admin/ManageJewelryItems">Manage Jewelry Items</a>
+        <!-- Add more links for other admin functions here -->
+    </div>
+    <div class="content">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/common.js"></script>
+</body>
+</html>

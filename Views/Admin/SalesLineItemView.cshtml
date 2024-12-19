@@ -1,0 +1,39 @@
+﻿@model List<SalesLineItem>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Sale Line Items for Sale ID @Model.FirstOrDefault()?.SaleId</h2>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>Line Item ID</th>
+            <th>Jewelry Item</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lineItem in Model)
+        {
+            <tr>
+                <td>@lineItem.SaleLineItemId</td>
+                <td>@lineItem.JewelryItems?.Name</td>
+                <td>@lineItem.Qty</td>
+                <td>LKR @lineItem.TotalPrice.ToString("0.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function () {
+        $('#tableCss').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+    });
+</script>

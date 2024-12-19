@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Register</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="registerFirstname">First Name</label>
+                                <input type="text" class="form-control" id="registerFirstname" placeholder="Enter your First Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerLastname">Last Name</label>
+                                <input type="text" class="form-control" id="registerLastname" placeholder="Enter your Last Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerUsername">Username</label>
+                                <input type="text" class="form-control" id="registerUsername" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerEmail">Email address</label>
+                                <input type="email" class="form-control" id="registerEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerPassword">Password</label>
+                                <input type="password" class="form-control" id="registerPassword" placeholder="Enter your password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                            </div>
+                            <button id="btnreg" class="btn btn-primary btn-block">Register</button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <a href="login">Already have an account? Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/register.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,103 @@
+﻿@model List<ItemQuotation>
+@{
+    Layout = "~/Views/Admin/AdminLayout.cshtml";
+}
+<h2 class="text-center mb-5">Manage Quotations</h2>
+
+<table id="tableCss" class="table">
+    <thead>
+        <tr>
+            <th>Quotation ID</th>
+            <th>Customer Name</th>
+            <th>Customer Email</th>
+            <th>Requested Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var quotation in Model)
+        {
+            <tr>
+                <td>@quotation.QuotationId</td>
+                <td>@quotation.User.Name</td>
+                <td>@quotation.User.Email</td>
+                <td>@quotation.RequestedDate.ToString("dd/MM/yyyy")</td>
+                <td>@quotation.Status</td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-sm btn-outline-primary"
+                       asp-controller="Admin"
+                       asp-action="QuotationLineItemView"
+                       asp-route-id="@quotation.QuotationId"
+                       title="View Quotation Details"
+                       style="transition: background-color 0.3s ease;">
+                        <i class="bi bi-list-ul"></i> View LineItems
+                    </a>
+                    @if (quotation.Status == "Pending")
+                    {
+                        <br />
+                        <a class="btn btn-sm btn-outline-primary"
+                           asp-controller="Admin"
+                           asp-action="SendQuotationView"
+                           asp-route-id="@quotation.QuotationId"
+                           title="View Quotation Details"
+                           style="border: 1px solid green; color: green; transition: background-color 0.3s ease; outline: none;margin-top:3px;" onmouseover="this.style.backgroundColor='green'; this.style.color='white';" onmouseout="this.style.backgroundColor=''; this.style.color='green';">
+                            <i class="bi bi-envelope"></i> Send Quotation
+                        </a>
+                    }
+                    else if (quotation.Status == "Completed")
+                    {
+                        <br />
+                        <a class="btn btn-sm btn-outline-primary"
+                           asp-controller="Admin"
+                           asp-action="ViewQuotation"
+                           asp-route-id="@quotation.QuotationId"
+                           title="View Quotation Details"
+                           target="_blank"
+                           style="border: 1px solid grey; color: grey; transition: background-color 0.3s ease; outline: none;margin-top:3px;" onmouseover="this.style.backgroundColor='grey'; this.style.color='white';" onmouseout="this.style.backgroundColor=''; this.style.color='grey';">
+                            <i class="bi bi-file-earmark-arrow-down"></i> View Quotation
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tableCss').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true
+            });
+
+            // SweetAlert for TempData Messages
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                title: 'Success!',
+                text: '@TempData["SuccessMessage"]',
+                confirmButtonText: 'OK'
+                    });
+            </text>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    icon: 'error',
+                title: 'Error!',
+                text: '@TempData["ErrorMessage"]',
+                confirmButtonText: 'OK'
+                    });
+            </text>
+        }
+            });
+    </script>
+}

@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+    var username = Context.Session.GetString("UserName") ?? "Guest";
+    var usertype = Context.Session.GetString("UserRole") ?? "Guest";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/AdminStyle.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @RenderSection("PageStyles", required: false)
+
+</head>
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary" style="display: block; margin: 0 auto;"></button>
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image:url('/images/tortoise-shell.svg');">
+                <div class="user-logo">
+                    <div class="img" style="background-image: url('/images/logo.jpg');"></div>
+                    <h3>@username</h3>
+                    <h6>@usertype</h6>
+                </div>
+            </div>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a asp-controller="Admin" asp-action="Index"><span class="bi bi-house-door-fill mr-3"></span> Home</a>
+                </li>
+                <li>
+                    <a asp-controller="Admin" asp-action="ManageCategory"><span class="bi bi-list-task mr-3"></span> Manage Category</a>
+                </li>
+                <li>
+                    <a asp-controller="Admin" asp-action="ManageJewelryItems"><span class="bi bi-gem mr-3"></span> Manage Jewellery Items</a>
+                </li>
+                <li>
+                    <a asp-controller="Admin" asp-action="ManageQuotations"><span class="bi bi-file-earmark-text mr-3"></span> Manage Quotations</a>
+                </li>
+                <li>
+                    <a asp-controller="Admin" asp-action="ManageAppointments"><span class="bi bi-calendar-check mr-3"></span> Manage Appointments</a>
+                </li>
+                <li>
+                    <a asp-controller="Admin" asp-action="SalesUpload"><span class="bi bi-upload mr-3"></span> Sales Upload</a>
+                </li>
+                <li>
+                    <a asp-controller="Admin" asp-action="Logout"><span class="bi bi-box-arrow-right mr-3"></span> Sign Out</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5 pt-5" style="overflow-x:auto">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <script src="~/js/popper.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/AdminMain.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

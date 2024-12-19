@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Home/CommonLayout.cshtml";
+}
+
+<!-- Product Section -->
+<div class="bg0 m-t-23 p-b-140">
+    <div class="container">
+
+        <div class="flex-w flex-sb-m p-b-52" style="margin-top:100px">
+            <!-- Filter Buttons -->
+            <div class="flex-w flex-l-m filter-tope-group m-tb-10" id="filter-buttons">
+                <!-- Categories will be dynamically loaded here -->
+            </div>
+        </div>
+
+
+        <!-- Product Grid -->
+        <div class="row" id="itemsContainer">
+            <!-- Items will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Load More Button -->
+        <div class="flex-c-m flex-w w-full p-t-45">
+            <a href="#" id="loadMore" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                Load More
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="~/js/category.js"></script>
+}

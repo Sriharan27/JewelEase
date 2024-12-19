@@ -1,0 +1,46 @@
+﻿@{
+	Layout = "~/Views/Home/CommonLayout.cshtml";
+}
+<form class="bg0 p-t-75 p-b-85">
+	<div class="container">
+		<div class="row" style="margin-top:60px">
+			<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+				<div class="m-l-25 m-r--38 m-lr-0-xl">
+
+					<!-- Add heading here -->
+					<h1 class="text-center mb-4">Shopping Cart</h1>
+
+					<!-- Shopping Cart Container -->
+					<div class="wrap-table-shopping-cart">
+						<table class="table-shopping-cart" style="width: 100%;">
+							<thead>
+								<tr class="table_head">
+									<th class="column-1">Product</th>
+									<th class="column-2" style="padding-right:5px"></th>
+									<th class="column-3" style="text-align:right; padding-right:30px;">Quantity</th>
+									<th class="column-4" style="text-align:right; padding-right:30px;">Action</th>
+								</tr>
+							</thead>
+							<tbody class="header-cart-wrapitem">
+								<!-- Cart items will be dynamically loaded here by JS -->
+							</tbody>
+						</table>
+					</div>
+
+					<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-10 p-lr-15-sm" style="justify-content: flex-end;">
+						<div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10 m-r-10">
+							Update Cart
+						</div>
+						<div id="requestQuotationBtn" class="flex-c-m stext-101 cl0 size-119 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" data-user-id="@((Context.Session.GetInt32("UserId") ?? 0))">
+							Request Quotation
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section Scripts {
+	<script src="~/js/Cart.js"></script>
+}
